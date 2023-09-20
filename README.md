@@ -20,6 +20,13 @@ Different methods and approaches will be demonstrated for each of these clinical
 
 CPD accreditation is sought annually for this course from the Royal College of Pathologists.
 
+## Training Team
+
+- [Martin Maiden](https://www.zoo.ox.ac.uk/people/professor-martin-maiden), University of Oxford, UK
+- [Stephen Gillespie](https://risweb.st-andrews.ac.uk/portal/en/persons/stephen-henry-gillespie%28ce4435fa-8cee-4e25-92fe-30f18dfec159%29.html), University of St Andrews, UK
+- [Katarina Oravcova](https://www.gla.ac.uk/researchinstitutes/bahcm/staff/katarinaoravcova/), University of Glasgow, UK
+- [Charlene Rodrigues](https://www.zoo.ox.ac.uk/people/charlene-rodrigues), University of Oxford, UK
+
 Shield: [![CC BY 4.0][cc-by-shield]][cc-by]
 
 This work is licensed under a
