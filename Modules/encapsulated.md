@@ -1,0 +1,309 @@
+# Genomics and Clinical Microbiology 2024
+
+14 - 19 January 2024
+ 
+Wellcome Genome Campus, Hinxton UK
+
+## Topic: Bioinformatics
+
+**Instructors: Dr. Keith Jolley, Dr. Made Krisna, Dr. Kasia Parfitt and Prof. Martin Maiden**
+
+## Background
+
+This module aims to introduce participants to bioinformatic analysis of molecular and genomic data.
+
+## Learning outcomes
+
+* Gain familiarity with the Linux operating system and command line;
+* Understand the concepts of sequence alignment and tree building;
+* Explore and analyse genomic datasets on PubMLST.
+
+## Practical 1: Introduction to the Linux command line and BLAST
+
+In this practical we will be introducing the Linux command line. Most bioinformatics tools run on Linux and so a familiarity with its use can be very helpful. To provide a real-world example of its power we will use the stand-alone BLAST package to create a local database that can be queried to identify a sequence. In this case we will construct a database of 16S sequences and use this to try to identify the species using sequences from four bacterial samples.
+
+Commands are typed in to a console window. This is accessed in different ways on different versions of Linux, but there should be either a menu entry or icon for ‘console’ or ‘terminal’. For the Linux system used on the course this is highlighted below: 
+
+![](images/encapsulated/linux1.jpg)
+
+We will be using a number of commands to navigate the Linux file system. Commands that appear in a box should be typed directly in to the console window, e.g.
+
+```
+ls *
+```
+
+**Linux is case-sensitive – it is important that commands are typed exactly as shown, including spaces.**
+
+### Navigation
+In this section we will gain a familiarity with the Linux commands used to navigate the file system and interact with files and directories. Type everything that appears in the boxes.
+
+#### List files in your home directory.
+
+List non-hidden files in your current directory:
+```
+ls
+```	
+List all files in your current directory:
+```
+ls -a
+```
+#### Change current directory to the root of the file system and explore the directory structure.
+
+To go to the root (top-level) of the filesystem:
+```
+cd /
+```
+List non-hidden files in your current directory with extended information (file size, dates, owner). You can combine command attributes, e.g. (-a: show all; -l: show long information; -h: show human-readable file sizes):
+```
+ls -lh
+```
+Show the current directory (print working directory):
+```
+pwd
+```
+Change current directory to /home and list the contents:
+```
+cd /home
+ls -l
+```
+Change to the parent directory and list the contents:
+```
+cd ..
+ls -l
+```
+Go back to your home directory, list the contents, and check where you are in the file system hierarchical structure:
+```
+cd ~
+ls
+pwd
+```
+### Creating a BLAST database
+Make sure that you are in your home directory:
+```
+cd
+pwd
+```
+We are now going to create a directory where we will generate the BLAST database. To do this, we use the ``mkdir`` (make directory) command.
+```
+mkdir blast
+```
+To enter a directory, we use the ``cd`` command (change directory). Enter the newly created blast directory.
+```
+cd blast
+```
+Now we will obtain reference 16S sequences. These are available from the SILVA website (<https://www.arb-silva.de>). For this practical the sequences are available in a file stored in a directory on your computer (/usr/local/share/MACMA/bioinformatics/16S_ref.fasta.gz).
+
+Copy the compressed sequence file to the current directory. A dot (.) on its own in a command means the current directory. The .gz ending indicates that the file is compressed using gzip.
+```
+cp /usr/loca/share/MACMA/bioinformatics/16S_ref.fasta.gz .
+```
+> **_Note_** that if you wish to run this practical later on your own computer, you can obtain this file from <https://www.arb-silva.de/fileadmin/silva_databases/release_132/Exports/SILVA_132_SSURef_Nr99_tax_silva.fasta.gz>. This URL has been shortened by tinyurl to <https://tinyurl.com/y7dh2htc>.  You can download files using the ``wget`` command.   
+> 
+> ``wget https://tinyurl.com/y7dh2htc --output-document=16S_ref.fasta.gz``
+
+ We can see the size of this file by using the ``ls`` command with the -l (long) -h (human-readable) arguments.
+```
+ls -lh
+```
+You should see something like the following:
+> ``-rw-rw-r-- 1 keith keith 230M Dec 11  2017 16S_ref.fasta.gz``
+
+The file size is 230MB.
+
+Before we can use it, we need to uncompress it using the ``gunzip`` command. This is quite a large file and will therefore take a few seconds to uncompress.
+```
+gunzip 16S_ref.fasta.gz
+```
+When the file has finished uncompressing you will see that the file size is now much bigger and the .gz prefix has been removed from the filename.
+```
+ls -lh
+```
+
+> ``-rw-rw-r-- 1 keith keith 1.1G Dec 11  2017 16S_ref.fasta``
+
+The file size is now 1.1GB.
+
+You can look at the contents of this file using the ``less`` command. Scroll through the file using the space key, go back using the ‘b’ key and exit by pressing ‘q’. The file is in FASTA format, with taxonomic information in the header line for each sequence.
+```
+less 16S_ref.fasta
+```
+We can use this file to create a BLAST database against which we can query the specimen sequences. Creating the database will take about 2-3 minutes.
+```
+makeblastdb -in 16S_ref.fasta -dbtype nucl -out 16Sdb
+```
+Now if you list the contents of the directory, you should see 3 new files: 16Sdb.nhr, 16Sdb.nin and 16Sdb.nsq. These together comprise the BLAST database.
+
+16S sequences have been generated for 4 specimens. You can download these from <https://pubmlst.org/static/training/16S.tar>.
+```
+wget https://pubmlst.org/static/training/16S.tar
+```
+This file is an uncompressed tar archive containing individual files for each specimen. Extract the files using the tar command.
+```
+tar xvf 16S.tar
+```
+If you now list the directory, you should see FASTA files for specimens 1-4.
+
+Query each sequence against the newly-created BLAST database. As these are nucleotide sequences and the BLAST database has been created using nucleotide sequences, we should use the ``blastn`` command.
+```
+blastn -db 16Sdb -query specimen1.fas -out specimen1.out
+```
+View the output using the ``less`` command:
+```
+less specimen1.out
+```
+Scroll down until you come to the first alignment. Alignments are shown in score order so the better alignments are shown first. Can you identify the species?
+
+Do the same for the other specimen files. You may wish to limit the number of results
+```
+blastn -db 16Sdb -query specimen2.fas -out specimen2.out -num_alignments 5
+```
+
+## Practical 2: Constructing phylogenetic trees
+
+### Introduction to phylogenetic analysis
+For these exercises we will be using the program MEGA (Molecular Evolutionary Genetics Analysis). This is a free application that will run on Windows, MacOS or Linux and is available from <https://megasoftware.net/>. The exercise will be run as an interactive session with a talk. Please stop and wait for the next part of the talk when you reach a stop sign:
+
+![](images/encapsulated/stop-sign.png)
+
+You have been provided with a dataset that consists of the sequences of a gene for a collection of diverse *Mycobacteria* spp. isolates spanning the known diversity of the genus. You can find these sequences in https://github.com/WCSCourses/GCM24/tree/main/course_data/phylogenetics. For the workshop we will be running this practical using the Linux virtual machines - the data have already been installed on these, but you will need to copy them into your account to make it easy to drag-and-drop the files. To do this, open a terminal window and type:
+
+```
+mkdir Desktop/phylogenetics
+cp /usr/local/share/MACMA/bioinformatics/*.fas Desktop/phylogenetics
+```
+
+You should now see a new folder on your desktop called 'phylogenetics' that contains two files. You will be able to drag-and-drop from here into the MEGA window later.
+
+![](images/encapsulated/linux_phylo.jpg)
+
+We will be looking at the *rplB* gene that encodes one of the proteins that make up the ribosome, the essential protein factory of the cell. Some ribosomal protein genes are involved in antibiotic resistance within *Mycobacteria*, and may therefore be under diversifying selection, but this gene is not. With its essential role we should, therefore, expect it to be relatively conserved within a species, making it a good candidate for phylogenetic analysis.
+
+### Aligning and formatting data
+The sequences have been provided in FASTA format. This is the simplest and probably most common format for sequence data. Each sequence within a FASTA file consists of a header line beginning with a ‘>’ character followed by the sequence identifier and optional comments separated by a ‘|’ character. The sequence itself appears on the following line(s) and continues until either the next header line (beginning with a ‘>’) or the end of the file, e.g.
+
+```
+>seq_1
+TTTGATACTGTTGCCGAAGGTTTGGGCGAAATTCGCGATTTATTGCGCCGTTATCATCAT
+GTCAGCCATGAGTTGGAAAATGGTTCGAGTGAGGCCTTATTGAAAGA
+>seq_2
+TTTGATACCGTTGCCGAAGGTTTGGGTGAAATTCGCGATTTATTGCGCCGTTACCACCGC
+GTCGGCCATGAGTTGGAAAACGGTTCGGGTGAGGCTTTGTTGAAAGA
+>seq_3
+TTTGATACCGTTGCCGAAGGTTTGGGTAAAATTCGCGATTTATTGCGCCGTTACCACCGC
+GTCGGTCATGAGTTGGAAAACGGTTCGGGTGAGGCTTTGTTGAAAGA
+```
+MEGA can read FASTA files. Sequences need to be aligned before they can be used to generate phylogenetic trees.
+
+Run MEGA and open the mycobacteria.fas file now found in the phylogenetics folder on your desktop. 
+
+![](images/encapsulated/linux_phylo2.jpg)
+
+You can either click the ‘Data’ button and then select the file, or simply drag-and-drop the file in to the main interface.
+
+![](images/encapsulated/mega1.png)
+
+A dialog box will ask you whether to ‘Analyze or Align file’ – select ‘Align’.
+
+![](images/encapsulated/mega2.png)
+
+The sequences will be loaded in to the ‘Alignment explorer’ window.
+
+![](images/encapsulated/mega3.png)
+
+Select all the sequences by clicking ``Edit .. Select All``. 
+
+![](images/encapsulated/mega4.png)
+
+Click the Alignment tab and select Align by MUSCLE (codons):
+
+![](images/encapsulated/mega5.png)
+
+Aligning by codon takes account of the fact that these are protein-encoding sequences so the alignment is performed by first translating the codons to amino acids, performing the alignment, and then finally replacing the amino acids with the original codons. This will produce a more robust alignment for coding data than aligning individual nucleotides. 
+
+Alignment options will appear. Leave the default values and click ‘OK’.
+
+![](images/encapsulated/mega6.png)
+
+You will be asked whether you would like to remove gaps before alignment. Click ‘Yes’:
+
+![](images/encapsulated/mega7.png)
+
+You will then get a warning that there are stop codons found in the translated sequences. Click 'Ignore' since these are at the ends of the gene and do not affect the alignment.
+
+![](images/encapsulated/mega8.png)
+
+![](images/encapsulated/stop-sign.png)
+
+### Distances
+You can now perform phylogenetic analysis. Click on the ‘Data’ tab and select ‘Phylogenetic Analysis’:
+
+![](images/encapsulated/mega9.png)
+
+The data are protein encoding, so answer ‘Yes’ when asked:
+
+![](images/encapsulated/mega10.png)
+
+The aligned data are available in the main MEGA window.
+
+In order to re-construct a tree from sequence data we need to calculate the genetic distances between each sequence. There are different ways of doing this, employing different evolutionary models. The simplest is the p-distance which is basically a count of the number of differences between two aligned sequences divided by the length of the sequences. Select ‘Distances’ in the main MEGA window and then select ‘Compute Pairwise Distances…’ in the dropdown menu.
+
+![](images/encapsulated/mega11.png)
+
+You may be asked if you want to use the currently active file. Say 'yes'.
+
+![](images/encapsulated/mega12.png) 
+
+An ‘Analysis Preferences’ dialog will be displayed. Select  ‘p-distance’ in the Model/Method section leaving all other options at their default.
+
+![](images/encapsulated/mega13.png)
+
+Click ‘OK’. A distance matrix will be calculated and displayed. The distance between sequences 1 (*M. abscessus*) and 2 (*M. gilvum*) is 0.1182795699. This corresponds to 99 nucleotide differences in a total shared length of 837 bases, i.e. (99/837).
+
+![](images/encapsulated/mega14.png)
+
+If you re-calculate distances using a different model, you will see that the values are slightly different. Recalculate using the Jukes-Cantor model. The distance is now 0.1287197008. This difference is due to a multiple hit correction.
+
+![](images/encapsulated/stop-sign.png)
+
+### Tree building
+Now you can generate a Neighbor-Joining tree by selecting ‘Phylogeny’ in the main MEGA window and then ‘Construct/Test Neighbor-Joining Tree’.
+
+![](images/encapsulated/mega15.png)
+
+Accept the default options and click ‘OK’.
+
+![](images/encapsulated/mega16.png)
+
+A ‘Tree Explorer’ window will open. 
+
+![](images/encapsulated/mega17.png)
+
+The rectangular tree can be misleading because by default it will root at the midpoint whereas the root may not be known. A radiation tree is often a better way to draw an unrooted tree because no assumption of the root is implied. You can show a radiation tree by clicking on the tree icon and selecting ‘Radiation’.
+
+![](images/encapsulated/mega18.png)
+![](images/encapsulated/mega19.png)
+
+Switching off the labels will make the tree clearer. You can do this by unchecking the 'Taxon names' checkbox.
+
+Often we will want to explicity root a tree using an outgroup – one or more nodes that we know to be more dissimilar than the other members of the tree. A second dataset has been provided that includes the same dataset with the addition of the rplB sequence from a Corynebacterium diphtheriae isolate.
+Load the mycobacteria+C_diphtheriae.fas file, align it and generate a Neighbor-joining tree.
+
+![](images/encapsulated/mega20.png)
+
+Now we can see where the root should be, as *Corynebacterium diphtheriae* is the most distance node in the tree. We can explicitly root the tree using this node by selecting the branch from *Corynebacterium diphtheriae* to the other isolates, right-clicking and selecting ‘Root’.
+
+![](images/encapsulated/mega21.png)
+
+![](images/encapsulated/stop-sign.png)
+
+### Bootstrap tests
+Bootstrapping is a way of testing the reliability of an inferred tree. It works by randomly replacing a subset of the data and testing whether the topology of a tree generated from these new sequences changes. If it does not then there is a strong signal supporting the topology and we can be more confident of the groupings. The test provides a percentage value for each branch of the tree.
+
+From the MEGA main window, select Phylogeny and Neighbor-joining tree again. This time, in the section marked ‘Phylogeny Test’, select Test of Phylogeny ‘Bootstrap method’ leaving other options at their default settings.
+
+![](images/mega22.png)
+
+The bootstrap values will be displayed on each branch of the tree.
+
+![](images/encapsulated/mega23.png)
+
