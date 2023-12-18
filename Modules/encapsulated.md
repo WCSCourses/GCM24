@@ -92,15 +92,11 @@ To enter a directory, we use the ``cd`` command (change directory). Enter the ne
 ```
 cd blast
 ```
-Now we will obtain reference 16S sequences. These are available from the SILVA website (<https://www.arb-silva.de>). For this practical the sequences are available in a file stored in a directory on your computer (/usr/local/share/MACMA/bioinformatics/16S_ref.fasta.gz).
+Now we will obtain reference 16S sequences. These are available from the SILVA website (<https://www.arb-silva.de>) as a compressed file  (<https://www.arb-silva.de/fileadmin/silva_databases/release_132/Exports/SILVA_132_SSURef_Nr99_tax_silva.fasta.gz>). This URL has been shortened by tinyurl to <https://tinyurl.com/y7dh2htc>.  You can download files using the ``wget`` command.   
 
-Copy the compressed sequence file to the current directory. A dot (.) on its own in a command means the current directory. The .gz ending indicates that the file is compressed using gzip.
 ```
-cp /usr/loca/share/MACMA/bioinformatics/16S_ref.fasta.gz .
+wget https://tinyurl.com/y7dh2htc --output-document=16S_ref.fasta.gz
 ```
-> **_Note_** that if you wish to run this practical later on your own computer, you can obtain this file from <https://www.arb-silva.de/fileadmin/silva_databases/release_132/Exports/SILVA_132_SSURef_Nr99_tax_silva.fasta.gz>. This URL has been shortened by tinyurl to <https://tinyurl.com/y7dh2htc>.  You can download files using the ``wget`` command.   
-> 
-> ``wget https://tinyurl.com/y7dh2htc --output-document=16S_ref.fasta.gz``
 
  We can see the size of this file by using the ``ls`` command with the -l (long) -h (human-readable) arguments.
 ```
