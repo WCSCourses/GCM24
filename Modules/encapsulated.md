@@ -134,9 +134,9 @@ makeblastdb -in 16S_ref.fasta -dbtype nucl -out 16Sdb
 ```
 Now if you list the contents of the directory, you should see 3 new files: 16Sdb.nhr, 16Sdb.nin and 16Sdb.nsq. These together comprise the BLAST database.
 
-16S sequences have been generated for 4 specimens. You can download these from <https://pubmlst.org/static/training/16S.tar>.
+16S sequences have been generated for 4 specimens. You can download these from <https://github.com/WCSCourses/GCM24/raw/main/course_data/BLAST/16S.tar>.
 ```
-wget https://pubmlst.org/static/training/16S.tar
+wget wget https://github.com/WCSCourses/GCM24/raw/main/course_data/BLAST/16S.tar
 ```
 This file is an uncompressed tar archive containing individual files for each specimen. Extract the files using the tar command.
 ```
