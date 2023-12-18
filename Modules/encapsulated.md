@@ -136,7 +136,7 @@ Now if you list the contents of the directory, you should see 3 new files: 16Sdb
 
 16S sequences have been generated for 4 specimens. You can download these from <https://github.com/WCSCourses/GCM24/raw/main/course_data/BLAST/16S.tar>.
 ```
-wget wget https://github.com/WCSCourses/GCM24/raw/main/course_data/BLAST/16S.tar
+wget https://github.com/WCSCourses/GCM24/raw/main/course_data/BLAST/16S.tar
 ```
 This file is an uncompressed tar archive containing individual files for each specimen. Extract the files using the tar command.
 ```
