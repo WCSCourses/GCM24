@@ -279,7 +279,7 @@ First, we will use ribosomal MLST (rMLST).
 
 When the analysis completes, a table showing the alleles at each of the rMLST loci will be displayed along with a NeighborNet network.
 
-6.	Now we will analyse the isolates using the cgMLST scheme. This scheme consists of 1605 loci and provides higher resolution than the rMLST scheme. Repeat the Genome Comparator analysis but this time select the cgMLST scheme (*N. meningitidis* cgMLST v2).
+6.	Now we will analyse the isolates using the cgMLST scheme. This scheme consists of 1422 loci and provides higher resolution than the rMLST scheme. Repeat the Genome Comparator analysis but this time select the cgMLST scheme (*N. meningitidis* cgMLST v2).
 
 ![](images/encapsulated/pubmlst56.png)
 
