@@ -162,16 +162,18 @@ For these exercises we will be using the program MEGA (Molecular Evolutionary Ge
 
 ![](images/encapsulated/stop-sign.png)
 
-You have been provided with a dataset that consists of the sequences of a gene for a collection of diverse *Mycobacteria* spp. isolates spanning the known diversity of the genus. You can find these sequences in https://github.com/WCSCourses/GCM24/tree/main/course_data/phylogenetics. For the workshop we will be running this practical using the Linux virtual machines - the data have already been installed on these, but you will need to copy them into your account to make it easy to drag-and-drop the files. To do this, open a terminal window and type:
+You have been provided with a dataset that consists of the sequences of a gene for a collection of diverse *Mycobacteria* spp. isolates spanning the known diversity of the genus. You can find these sequences in https://github.com/WCSCourses/GCM24/tree/main/course_data/phylogenetics. Download the sequence data into your account to make it easy to drag-and-drop the files. To do this, open a terminal window and type (or copy and paste):
 
 ```
 mkdir Desktop/phylogenetics
-cp /usr/local/share/MACMA/bioinformatics/*.fas Desktop/phylogenetics
+cd Desktop/phylogenetics
+wget https://github.com/WCSCourses/GCM24/raw/main/course_data/phylogenetics/mycobacteria.fas
+wget https://github.com/WCSCourses/GCM24/raw/main/course_data/phylogenetics/mycobacteria+C_diphtheriae.fas
 ```
 
 You should now see a new folder on your desktop called 'phylogenetics' that contains two files. You will be able to drag-and-drop from here into the MEGA window later.
 
-![](images/encapsulated/linux_phylo.jpg)
+![](images/encapsulated/linux_phylo.png)
 
 We will be looking at the *rplB* gene that encodes one of the proteins that make up the ribosome, the essential protein factory of the cell. Some ribosomal protein genes are involved in antibiotic resistance within *Mycobacteria*, and may therefore be under diversifying selection, but this gene is not. With its essential role we should, therefore, expect it to be relatively conserved within a species, making it a good candidate for phylogenetic analysis.
 
