@@ -428,7 +428,7 @@ This will create a new output directory called 'quast_output' in the assembly di
 There are a number of different output files in this directory. The easiest one to view is the HTML report file. Enter the output directory and load this into Firefox:
 
 ```
-cd quast_out
+cd quast_output
 firefox report.html
 ```
 You will see some basic stats about the assembly. 
